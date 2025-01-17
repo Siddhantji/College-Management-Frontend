@@ -46,7 +46,7 @@ const MainLayout: React.FC = () => {
             textDecoration: 'none', 
             color: 'inherit' 
           }}>
-            College Management
+            College Fee Management
           </Typography>
           
           <Box sx={{ display: 'flex', gap: 2 }}>

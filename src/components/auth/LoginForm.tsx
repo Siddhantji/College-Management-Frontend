@@ -5,6 +5,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 const LoginForm = () => {
     const [username, setUsername] = useState('');
@@ -14,9 +15,42 @@ const LoginForm = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        let isSubscribed = true;
+
         if (user) {
             navigate('/colleges', { replace: true });
+            return;
         }
+
+        const checkBackend = async () => {
+            try {
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/`);
+                if (isSubscribed) {
+                    if (response.data.status === 'success') {
+                        toast.success('Backend is connected', {
+                            toastId: 'backend-connection' // Prevent duplicate toasts
+                        });
+                    } else {
+                        toast.warning('Backend status unclear', {
+                            toastId: 'backend-warning'
+                        });
+                    }
+                }
+            } catch (error) {
+                if (isSubscribed) {
+                    console.error('Backend connection error:', error);
+                    toast.error('Backend is unreachable', {
+                        toastId: 'backend-error'
+                    });
+                }
+            }
+        };
+
+        checkBackend();
+
+        return () => {
+            isSubscribed = false;
+        };
     }, [user, navigate]);
 
     const handleSubmit = async (e: React.FormEvent) => {

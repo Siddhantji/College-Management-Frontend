@@ -1,4 +1,4 @@
-import axios from '../utils/axios';
+import axios from "../utils/axios";
 
 export interface College {
   collegeName: string;
@@ -36,21 +36,17 @@ export interface Course {
   updatedAt: string;
 }
 
-interface CourseResponse {
-  count: number;
-  courses: Course[];
-}
+// interface CourseResponse {
+//   count: number;
+//   courses: Course[];
+// }
 
-interface PaginationParams {
-  page: number;
-  limit: number;
-}
-
-export interface QueryParams {  // Add export here
-  page?: number;        // Make page optional
-  limit?: number;       // Make limit optional
+export interface QueryParams {
+  // Add export here
+  page?: number; // Make page optional
+  limit?: number; // Make limit optional
   sort?: string;
-  order?: 'asc' | 'desc';
+  order?: "asc" | "desc";
   search?: string;
   filter?: Record<string, string>;
 }
@@ -74,8 +70,13 @@ export interface FilterParams {
   minTotalFee?: number;
   maxTotalFee?: number;
   search?: string;
-  [key: string]: string | number | undefined;  // Add index signature
+  [key: string]: string | number | undefined; // Add index signature
 }
+
+// interface PaginationParams {
+//   page: number;
+//   limit: number;
+// }
 
 interface PaginatedResponse<T> {
   count: number;
@@ -84,7 +85,7 @@ interface PaginatedResponse<T> {
   totalPages: number;
   hasNext: boolean;
   hasPrev: boolean;
-  results?: number;  // Add optional results field
+  results?: number; // Add optional results field
 }
 
 // Update FilterResponse to match actual API response
@@ -97,61 +98,68 @@ interface CollegeListResponse {
 
 interface FilteredResponse {
   status: string;
-  count: number;      // Total number of records
+  count: number; // Total number of records
   currentPage: number;
   totalPages: number;
-  results: number;    // Number of records in current page
+  results: number; // Number of records in current page
   courses: Course[];
 }
 
 export const collegeService = {
-  getAll: (params?: QueryParams) => axios.get<CollegeResponse>('/courses/colleges', { params }),
+  getAll: (params?: QueryParams) =>
+    axios.get<CollegeResponse>("/courses/colleges", { params }),
   getById: (id: string) => axios.get<College>(`/colleges/${id}`),
-  create: (data: Partial<College>) => axios.post('/colleges', data),
-  update: (id: string, data: Partial<College>) => axios.put(`/colleges/${id}`, data),
+  create: (data: Partial<College>) => axios.post("/colleges", data),
+  update: (id: string, data: Partial<College>) =>
+    axios.put(`/colleges/${id}`, data),
   delete: (id: string) => axios.delete(`/colleges/${id}`),
   uploadExcel: (file: File) => {
     const formData = new FormData();
-    formData.append('file', file);
-    return axios.post('/colleges/upload', formData, {
+    formData.append("file", file);
+    return axios.post("/colleges/upload", formData, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        "Content-Type": "multipart/form-data",
       },
     });
   },
-  getCollegeCourses: (collegeName: string, params?: QueryParams) => 
-    axios.get<PaginatedResponse<Course>>(`/courses/colleges/${encodeURIComponent(collegeName)}`, { 
-      params: {
-        ...params,
-        filter: params?.filter ? JSON.stringify(params.filter) : undefined
+  getCollegeCourses: (collegeName: string, params?: QueryParams) =>
+    axios.get<PaginatedResponse<Course>>(
+      `/courses/colleges/${encodeURIComponent(collegeName)}`,
+      {
+        params: {
+          ...params,
+          filter: params?.filter ? JSON.stringify(params.filter) : undefined,
+        },
       }
-    }),
-  getFilteredCourses: (params?: FilterParams & { page?: number; limit?: number }) => 
-    axios.get<FilteredResponse>('/courses/filter', { 
+    ),
+  getFilteredCourses: (
+    params?: FilterParams & { page?: number; limit?: number }
+  ) =>
+    axios.get<FilteredResponse>("/courses/filter", {
       params: {
         ...params,
         page: params?.page || 1,
-        limit: params?.limit || 10
-      }
+        limit: params?.limit || 10,
+      },
     }),
 };
 
 export const filterService = {
-  getColleges: (params?: FilterParams) => 
-    axios.get<CollegeListResponse>('/courses/colleges', { params }),
-  
-  getCourses: (params?: FilterParams) => 
-    axios.get<FilterResponse>('/courses/courses', { params }),  // Updated path
-  
-  getSpecializations: (params?: FilterParams) => 
-    axios.get<FilterResponse>('/courses/specializations', { params }),
-  
-  getEligibilities: (params?: FilterParams) => 
-    axios.get<FilterResponse>('/courses/eligibilities', { params }),
-  
-  getDurationYears: (params?: FilterParams) => 
-    axios.get<FilterResponse>('/courses/durations', { params }),
-  
-  getModes: (params?: FilterParams) => 
-    axios.get<FilterResponse>('/courses/modes', { params })
+  getColleges: (params?: FilterParams) =>
+    axios.get<CollegeListResponse>("/courses/colleges", { params }),
+
+  getCourses: (params?: FilterParams) =>
+    axios.get<FilterResponse>("/courses/courses", { params }), // Updated path
+
+  getSpecializations: (params?: FilterParams) =>
+    axios.get<FilterResponse>("/courses/specializations", { params }),
+
+  getEligibilities: (params?: FilterParams) =>
+    axios.get<FilterResponse>("/courses/eligibilities", { params }),
+
+  getDurationYears: (params?: FilterParams) =>
+    axios.get<FilterResponse>("/courses/durations", { params }),
+
+  getModes: (params?: FilterParams) =>
+    axios.get<FilterResponse>("/courses/modes", { params }),
 };

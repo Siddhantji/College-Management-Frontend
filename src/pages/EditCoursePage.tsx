@@ -1,8 +1,9 @@
-import React from 'react';
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import AddCoursePage from './AddCoursePage';
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 const EditCoursePage = () => {
   const { state } = useLocation();
@@ -12,7 +13,7 @@ const EditCoursePage = () => {
   const handleSubmit = async (formData: any) => {
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/courses/${id}`,
+        `${API_URL}/courses/${id}`,
         formData,
         {
           headers: {

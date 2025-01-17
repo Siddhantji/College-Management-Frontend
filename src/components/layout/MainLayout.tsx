@@ -103,7 +103,7 @@ const MainLayout: React.FC = () => {
                         px: 2,
                       }}
                     >
-                      Delete Excel
+                      Delete Data
                     </Button>
                   </>
                 )}
@@ -146,7 +146,7 @@ const MainLayout: React.FC = () => {
         </DialogTitle>
         <DialogContent>
           <Typography>
-            This action will permanently delete all Excel data. Are you sure you want to continue?
+            This action will permanently delete all Data. Are you sure you want to continue?
           </Typography>
         </DialogContent>
         <DialogActions sx={{ p: 2, pt: 0 }}>

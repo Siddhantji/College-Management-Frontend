@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { 
   Paper, Table, TableBody, TableCell, TableContainer, TableHead, 
   TableRow, Typography, CircularProgress, Box, Chip, TablePagination,
-  IconButton, Tooltip, FormControl, InputLabel, Select, MenuItem,
-  TextField, InputAdornment, Button
+  IconButton, Tooltip
 } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
-import SearchIcon from '@mui/icons-material/Search';
+// import SearchIcon from '@mui/icons-material/Search';
 import { useParams } from 'react-router-dom';
 import { collegeService, Course, FilterParams } from '../../services/collegeService';
 import { toast } from 'react-toastify';
@@ -21,10 +20,8 @@ const CollegeCourses = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [mode, setMode] = useState('all');
-  const [tempSearchTerm, setTempSearchTerm] = useState('');
-  const [tempMode, setTempMode] = useState('all');
+  // const [searchTerm, setSearchTerm] = useState('');
+  // const [mode, setMode] = useState('all');
   const [filterParams, setFilterParams] = useState<FilterParams>({});
 
   useEffect(() => {
@@ -74,18 +71,18 @@ const CollegeCourses = () => {
     setSelectedCourse(course);
   };
 
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
-  };
+  // const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setSearchTerm(event.target.value);
+  // };
 
-  const handleApplyFilters = (event: React.MouseEvent) => {
-    event.preventDefault();
-    setFilterParams({
-      mode: tempMode !== 'all' ? tempMode : undefined,
-      search: tempSearchTerm || undefined
-    });
-    setPage(0);
-  };
+  // const handleApplyFilters = (event: React.MouseEvent) => {
+  //   event.preventDefault();
+  //   setFilterParams({
+  //     mode: tempMode !== 'all' ? tempMode : undefined,
+  //     search: tempSearchTerm || undefined
+  //   });
+  //   setPage(0);
+  // };
 
   const handleFilterUpdate = (newFilters: FilterParams) => {
     setFilterParams(newFilters);
@@ -94,12 +91,12 @@ const CollegeCourses = () => {
     setRowsPerPage(10);
   };
 
-  const handleClearFilters = () => {
-    setTempSearchTerm('');
-    setTempMode('all');
-    setSearchTerm('');
-    setMode('all');
-  };
+  // const handleClearFilters = () => {
+  //   setTempSearchTerm('');
+  //   setTempMode('all');
+  //   setSearchTerm('');
+  //   setMode('all');
+  // };
 
   if (loading) {
     return (
